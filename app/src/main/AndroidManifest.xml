@@ -14,7 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyMovieApp">
         <activity
-            android:name=".MovieDetailsActivity"
+            android:name=".presentation.activities.PersonDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.activities.MovieDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.activities.MainActivity"

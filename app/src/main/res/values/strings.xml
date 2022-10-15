@@ -2,4 +2,8 @@
     <string name="app_name">MyMovieApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="actorsTextRu">В ролях</string>
+    <string name="recommendMoviesTextRu">Рекомендуемые фильмы</string>
+    <string name="similarMoviesTextRu">Похожие фильмы</string>
+    <string name="videosTextRu">Трейлеры и фрагменты</string>
 </resources>

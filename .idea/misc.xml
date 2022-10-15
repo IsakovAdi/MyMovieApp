@@ -3,8 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Adilet/MyMovieApp/app/src/main/res/layout/activity_main.xml" value="0.2638888888888889" />
-        <entry key="..\:/Users/Adilet/MyMovieApp/app/src/main/res/layout/fragment_movies.xml" value="0.15729166666666666" />
+        <entry key="..\:/Users/Adilet/MyMovieApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/Adilet/MyMovieApp/app/src/main/res/layout/activity_movie_details.xml" value="0.25934579439252337" />
+        <entry key="..\:/Users/Adilet/MyMovieApp/app/src/main/res/layout/fragment_actors.xml" value="0.3359375" />
+        <entry key="..\:/Users/Adilet/MyMovieApp/app/src/main/res/layout/fragment_movies.xml" value="0.25" />
+        <entry key="..\:/Users/Adilet/MyMovieApp/app/src/main/res/layout/fragment_root.xml" value="0.3359375" />
+        <entry key="..\:/Users/Adilet/MyMovieApp/app/src/main/res/layout/movie_item.xml" value="0.33" />
+        <entry key="..\:/Users/Adilet/MyMovieApp/app/src/main/res/layout/object_item.xml" value="0.33" />
+        <entry key="..\:/Users/Adilet/MyMovieApp/app/src/main/res/layout/object_item_horizontal.xml" value="0.33" />
+        <entry key="..\:/Users/Adilet/MyMovieApp/app/src/main/res/layout/object_item_portrait.xml" value="0.3359375" />
+        <entry key="..\:/Users/Adilet/MyMovieApp/app/src/main/res/layout/spinner_custom_item.xml" value="0.3359375" />
       </map>
     </option>
   </component>

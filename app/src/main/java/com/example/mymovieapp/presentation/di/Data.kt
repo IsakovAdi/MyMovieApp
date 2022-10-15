@@ -1,32 +1,33 @@
 package com.example.mymovieapp.presentation.di
 
-import com.example.mymovieapp.data.network.MovieRepositoryData
-import com.example.mymovieapp.data.network.MovieRepositoryDataImpl
-import com.example.mymovieapp.data.network.VideoRepositoryData
-import com.example.mymovieapp.data.network.VideoRepositoryDataImpl
-import com.example.mymovieapp.data.repository.MovieRepositoryImpl
-import com.example.mymovieapp.data.repository.VideoRepositoryImpl
-import com.example.mymovieapp.domain.repository.MovieRepository
-import com.example.mymovieapp.domain.repository.VideoRepository
+import com.example.mymovieapp.data.network.RetrofitInstance
+import com.example.mymovieapp.domain.repositories.MovieRepository
+import com.example.mymovieapp.data.network.service.MovieRepositoryImpl
+import com.example.mymovieapp.data.network.service.PersonRepositoryImpl
+import com.example.mymovieapp.data.network.service.VideoRepositoryImpl
+import com.example.mymovieapp.data.storage.LanguageRepositoryImpl
+import com.example.mymovieapp.domain.repositories.LanguageRepository
+import com.example.mymovieapp.domain.repositories.PersonRepository
+import com.example.mymovieapp.domain.repositories.VideoRepository
 import org.koin.dsl.module
 
 
 val dataModule = module {
 
-    single<MovieRepositoryData> {
-        MovieRepositoryDataImpl()
-    }
-
     single<MovieRepository> {
-        MovieRepositoryImpl(repository = get())
-    }
-    single<VideoRepositoryData> {
-        VideoRepositoryDataImpl()
+        MovieRepositoryImpl(movieApi = RetrofitInstance.movieApi)
     }
 
     single<VideoRepository> {
-        VideoRepositoryImpl(repository = get())
+        VideoRepositoryImpl(api = RetrofitInstance.videoApi)
     }
 
+    single<PersonRepository> {
+        PersonRepositoryImpl(api = RetrofitInstance.personApi)
+    }
+
+    single<LanguageRepository> {
+        LanguageRepositoryImpl(context = get())
+    }
 
 }
