@@ -2,19 +2,24 @@ package com.example.mymovieapp.presentation.activities
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.util.Log
+import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import com.example.mymovieapp.R
 import com.example.mymovieapp.data.network.Utils.POSTER_PATH_URL
-import com.example.mymovieapp.databinding.ActivityMainBinding
 import com.example.mymovieapp.databinding.ActivityMovieDetailsBinding
 import com.example.mymovieapp.domain.models.movie.MovieModel
 import com.example.mymovieapp.presentation.adapters.MovieItemAdapter
-import com.example.mymovieapp.presentation.adapters.PersonItemAdapter
+import com.example.mymovieapp.presentation.adapters.PersonDetailsAdapter
 import com.example.mymovieapp.presentation.viewModels.MovieDetailsViewModel
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerFullScreenListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import com.squareup.picasso.Picasso
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class MovieDetailsActivity : AppCompatActivity() {
 
@@ -32,9 +37,11 @@ class MovieDetailsActivity : AppCompatActivity() {
         MovieItemAdapter(MovieItemAdapter.HORIZONTAL_TYPE)
     }
 
-    private val actorsAdapter: PersonItemAdapter by lazy {
-        PersonItemAdapter(PersonItemAdapter.HORIZONTAL_TYPE)
+    private val actorsAdapter: PersonDetailsAdapter by lazy {
+        PersonDetailsAdapter()
     }
+
+    private lateinit var genresAdapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,18 +52,34 @@ class MovieDetailsActivity : AppCompatActivity() {
         observeMovie()
         setupRecommendMoviesRv()
         setupSimilarMoviesRv()
+        setupActors()
+        initYoutubePlayer()
     }
 
-
-    private fun parseToolbar(title: String) {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = title
+    private fun parseIntent() {
+        movie = intent.getParcelableExtra(MOVIE)
     }
 
-    private fun setupActors() {
-        binding.actorsRv.setHasFixedSize(true)
-
+    private fun parsePageLanguage() {
+        val details = viewModel.detailsState
+        binding.apply {
+            movieBudget.text = details.budget
+            movieGenres.text = details.genres
+            movieStatus.text = details.status
+            movieTitle.text = details.movieTitle
+            moviePopularity.text = details.moviePopularity
+            movieVoteCount.text = details.movieVoteCount
+            movieVoteAverage.text = details.rating
+            movieOriginalLanguage.text = details.originalLanguage
+            movieOriginalTitle.text = details.originalTitle
+            movieReleaseDate.text = details.release
+            movieOverview.text = details.description
+            actorsText.text = details.actors
+            videoText.text = details.videos
+            similarMoviesText.text = details.similarMoviesText
+            recommendMoviesText.text = details.recommendMoviesText
+            movieRuntime.text = details.movieRuntime
+        }
     }
 
     private fun makeResponse() {
@@ -66,19 +89,38 @@ class MovieDetailsActivity : AppCompatActivity() {
         viewModel.getActors(movie!!.genre_ids)
     }
 
-    private fun setupSimilarMoviesRv() {
-        viewModel.similarMovies.observe(this@MovieDetailsActivity) {
-            similarMoviesAdapter.submitList(it.movies)
+    private fun observeMovie() {
+        viewModel.movie.observe(this) { movie ->
+            parseToolbar(movie.title)
+            Picasso.get().load(POSTER_PATH_URL + movie.backdrop_path).into(binding.moviePosterImage)
+            binding.apply {
+                title.text = movie.title
+                popularity.text = movie.popularity.toString()
+                voteCount.text = movie.voteCount.toString()
+                budget.text = movie.budget.toString()
+                voteAverage.rating = movie.voteAverage.toFloat()
+                originalLanguage.text = movie.originalLanguage
+                originalTitle.text = movie.originalTitle
+                releaseDate.text = movie.releaseDate
+                runtime.text = movie.runtime
+                status.text = movie.status
+                overview.text = movie.overview
+            }
+            initGenresList(movie.genres)
         }
-        binding.similarMoviesRv.adapter = similarMoviesAdapter
-        setupSimilarMoviesClickListener()
     }
 
-    private fun setupSimilarMoviesClickListener() {
-        similarMoviesAdapter.onMovieItemClickListener = {
-            val intent = launchMovieDetailsActivity(this, it)
-            startActivity(intent)
-        }
+    private fun parseToolbar(title: String) {
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = title
+    }
+
+    private fun initGenresList(genres: List<String>) {
+        genresAdapter = ArrayAdapter(
+            this@MovieDetailsActivity, R.layout.spinner_custom_item, genres
+        )
+        binding.genresListView.adapter = genresAdapter
     }
 
     private fun setupRecommendMoviesRv() {
@@ -94,47 +136,91 @@ class MovieDetailsActivity : AppCompatActivity() {
             val intent = launchMovieDetailsActivity(this, it)
             startActivity(intent)
         }
+        recommendMoviesAdapter.onMovieItemLongClickListener = {
+            viewModel.saveMovie(it)
+        }
     }
 
-    private fun observeMovie() {
-        viewModel.movie.observe(this) { movie ->
-            parseToolbar(movie.title!!)
-            Picasso.get().load(POSTER_PATH_URL + movie.backdrop_path).into(binding.moviePosterImage)
-            binding.apply {
-                title.text = movie.title
-                popularity.text = movie.popularity.toString()
-                voteCount.text = movie.voteCount.toString()
-                voteAverage.rating = movie.voteAverage.toFloat()
-                originalLanguage.text = movie.originalLanguage
-                originalTitle.text = movie.originalTitle
-                relaseDate.text = movie.releaseDate
-                overivew.text = movie.overview
+    private fun setupSimilarMoviesRv() {
+        viewModel.similarMovies.observe(this@MovieDetailsActivity) {
+            similarMoviesAdapter.submitList(it.movies)
+        }
+        binding.similarMoviesRv.adapter = similarMoviesAdapter
+        setupSimilarMoviesClickListener()
+    }
+
+    private fun setupSimilarMoviesClickListener() {
+        similarMoviesAdapter.onMovieItemClickListener = {
+            val intent = launchMovieDetailsActivity(this, it)
+            startActivity(intent)
+        }
+        similarMoviesAdapter.onMovieItemLongClickListener = {
+            viewModel.saveMovie(it)
+        }
+    }
+
+    private fun setupActors() {
+        viewModel.persons.observe(this@MovieDetailsActivity) {
+            actorsAdapter.submitList(it)
+        }
+        binding.actorsRv.adapter = actorsAdapter
+        setupActorsClickListener()
+    }
+
+    private fun setupActorsClickListener() {
+        actorsAdapter.onPersonItemClickListener = {
+            val intent =
+                PersonDetailsActivity.launchPersonDetailsActivity(this@MovieDetailsActivity, it)
+            startActivity(intent)
+        }
+    }
+
+    private fun initYoutubePlayer() {
+        binding.youtubePlayer.addYouTubePlayerListener(object : YouTubePlayerListener {
+            override fun onApiChange(youTubePlayer: YouTubePlayer) {
             }
 
-        }
-    }
+            override fun onCurrentSecond(youTubePlayer: YouTubePlayer, second: Float) {
+            }
 
-    private fun parsePageLanguage() {
-        val details = viewModel.detailsState
-        binding.apply {
-            movieTitle.text = details.movieTitle
-            moviePopularity.text = details.moviePopularity
-            movieVoteCount.text = details.movieVoteCount
-            movieVoteAverage.text = details.rating
-            movieOriginalLanguage.text = details.originalLanguage
-            movieOriginalTitle.text = details.originalTitle
-            movieRelaseDate.text = details.release
-            movieOverview.text = details.description
-            actorsText.text = details.actors
-            videoText.text = details.videos
-            similarMoviesText.text = details.similarMoviesText
-            recommendMoviesText.text = details.recommendMoviesText
-        }
-    }
+            override fun onError(youTubePlayer: YouTubePlayer, error: PlayerConstants.PlayerError) {
+            }
 
-    private fun parseIntent() {
-        movie = intent.getParcelableExtra(MOVIE)
+            override fun onPlaybackQualityChange(
+                youTubePlayer: YouTubePlayer,
+                playbackQuality: PlayerConstants.PlaybackQuality,
+            ) {
+            }
 
+            override fun onPlaybackRateChange(
+                youTubePlayer: YouTubePlayer,
+                playbackRate: PlayerConstants.PlaybackRate,
+            ) {
+            }
+
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                youTubePlayer.cueVideo("eaRVaVqwyJQ", 0f)
+            }
+
+            override fun onStateChange(
+                youTubePlayer: YouTubePlayer,
+                state: PlayerConstants.PlayerState,
+            ) {
+            }
+
+            override fun onVideoDuration(youTubePlayer: YouTubePlayer, duration: Float) {
+            }
+
+            override fun onVideoId(youTubePlayer: YouTubePlayer, videoId: String) {
+            }
+
+            override fun onVideoLoadedFraction(
+                youTubePlayer: YouTubePlayer,
+                loadedFraction: Float,
+            ) {
+            }
+
+        })
     }
 
     companion object {

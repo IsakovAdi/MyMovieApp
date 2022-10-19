@@ -27,7 +27,7 @@
         tools:layout="@layout/fragment_actors" />
     <fragment
         android:id="@+id/favoriteMoviesFragment"
-        android:name="com.example.mymovieapp.presentation.fragments.FavoriteMoviesFragment"
+        android:name="com.example.mymovieapp.presentation.fragments.StorageMoviesFragment"
         android:label="fragment_favorite_movies"
-        tools:layout="@layout/fragment_favorite_movies" />
+        tools:layout="@layout/fragment_storage_movies" />
 </navigation>

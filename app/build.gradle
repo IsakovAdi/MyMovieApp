@@ -51,28 +51,44 @@ dependencies {
     implementation 'com.github.jitpack:gradle-simple:2.0'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    
+//  any ui
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation "com.github.VaibhavLakhera:Circular-Progress-View:0.1.2"
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
+//  retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+//  okhttp3
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor")
 
-    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
+
+//  coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
 
+//  view_lifecycle
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+
+//  navigation
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.2"
     implementation "androidx.navigation:navigation-ui-ktx:2.5.2"
 
+//  kotlin_koin
     def koin_version = "3.1.2"
     implementation "io.insert-koin:koin-core:$koin_version"
     implementation "io.insert-koin:koin-android:$koin_version"
     testImplementation "io.insert-koin:koin-test:$koin_version"
+
+// RoomDatabase
+    implementation "androidx.room:room-runtime:2.4.3"
+    implementation "androidx.room:room-ktx:2.4.3"
+    kapt "androidx.room:room-compiler:2.4.3"
 
 }

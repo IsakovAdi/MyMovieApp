@@ -22,7 +22,7 @@ class RootFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         val fragmentList = arrayListOf(
-            MoviesFragment(), SearchMoviesFragment(), ActorsFragment(), FavoriteMoviesFragment()
+            MoviesFragment(), SearchMoviesFragment(), ActorsFragment(), StorageMoviesFragment()
         )
         val adapter = ViewPagerAdapter(
             fragmentList,

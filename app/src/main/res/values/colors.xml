@@ -13,4 +13,6 @@
     <color name="green">#7EC52C</color>
     <color name="red">#E81313</color>
     <color name="gold">#E4FF9800</color>
+    <color name="darkBlue">#1b0f30</color>
+    <color name="lightBlue">#3c2766</color>
 </resources>

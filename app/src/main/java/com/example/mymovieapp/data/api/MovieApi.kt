@@ -2,7 +2,6 @@ package com.example.mymovieapp.data.api
 
 import com.example.mymovieapp.data.network.Endpoints.Movie.MOVIE_DETAILS
 import com.example.mymovieapp.data.network.Endpoints.Movie.NOW_PLAYING
-import com.example.mymovieapp.data.network.model.response.movie.Movie
 import com.example.mymovieapp.data.network.model.response.movie.Movies
 import com.example.mymovieapp.data.network.Endpoints.Movie.POPULAR
 import com.example.mymovieapp.data.network.Endpoints.Movie.RECOMMENDATIONS

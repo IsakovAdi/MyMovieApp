@@ -2,7 +2,6 @@ package com.example.mymovieapp.domain.models.movie
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import java.io.Serializable
 
 @Parcelize
 data class MovieModel(

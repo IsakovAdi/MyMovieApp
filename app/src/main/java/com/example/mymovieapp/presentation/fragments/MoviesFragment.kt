@@ -47,13 +47,11 @@ class MoviesFragment : Fragment(), AdapterView.OnItemSelectedListener {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getMovies(MovieType.POPULAR)
         binding.movieTypeSpinner.onItemSelectedListener = this
-
         setupMoviesRV()
         setupSpinner()
         setupSwitch()
         setupClickers()
         observeViewModel()
-
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.getMovies(viewModel.latestPosition)
         }
@@ -90,10 +88,6 @@ class MoviesFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    private fun makeToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-    }
-
     private fun setupSwitch() {
         binding.languageSwitch.setOnCheckedChangeListener { buttonView, isChacked ->
             viewModel.changeLanguage()
@@ -113,14 +107,13 @@ class MoviesFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     private fun setupMoviesRV() {
-        binding.moviesRv.setHasFixedSize(true)
         viewModel.movies.observe(viewLifecycleOwner) {
             moviesAdapter.submitList(it.movies)
             binding.swipeRefresh.isRefreshing = false
             binding.generalProgress.visibility = INVISIBLE
             setVisibilities()
+            binding.moviesRv.adapter = moviesAdapter
         }
-        binding.moviesRv.adapter = moviesAdapter
         setupMoviesRvClickListener()
     }
 
@@ -128,6 +121,11 @@ class MoviesFragment : Fragment(), AdapterView.OnItemSelectedListener {
         moviesAdapter.onMovieItemClickListener = {
             val intent = MovieDetailsActivity.launchMovieDetailsActivity(requireContext(), it)
             startActivity(intent)
+        }
+
+        moviesAdapter.onMovieItemLongClickListener = {
+            viewModel.saveMovie(it)
+            makeToast("${it.title} saved")
         }
     }
 
@@ -156,5 +154,9 @@ class MoviesFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
 
+    }
+
+    private fun makeToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 }

@@ -2,7 +2,10 @@ package com.example.mymovieapp.presentation.di
 
 import com.example.mymovieapp.domain.usecases.language.ChangeLanguageUseCase
 import com.example.mymovieapp.domain.usecases.language.GetLanguageUseCase
-import com.example.mymovieapp.domain.usecases.movie.*
+import com.example.mymovieapp.domain.usecases.movie.network.*
+import com.example.mymovieapp.domain.usecases.movie.storage.DeleteMovieUseCase
+import com.example.mymovieapp.domain.usecases.movie.storage.GetStorageMoviesUseCase
+import com.example.mymovieapp.domain.usecases.movie.storage.SaveMovieUseCase
 import com.example.mymovieapp.domain.usecases.person.GetPersonDetailsUseCase
 import com.example.mymovieapp.domain.usecases.person.GetPersonsUseCase
 import com.example.mymovieapp.domain.usecases.video.GetVideosUseCase
@@ -59,6 +62,18 @@ val domainModule = module {
     }
     factory<ChangeLanguageUseCase> {
         ChangeLanguageUseCase(repository = get())
+    }
+
+    factory<DeleteMovieUseCase> {
+        DeleteMovieUseCase(repository = get())
+    }
+
+    factory<GetStorageMoviesUseCase> {
+        GetStorageMoviesUseCase(repository = get())
+    }
+
+    factory<SaveMovieUseCase> {
+        SaveMovieUseCase(repository = get())
     }
 
 }

@@ -1,16 +1,13 @@
 package com.example.mymovieapp.data.network.service
 
-import android.util.Log
-import com.example.mymovieapp.data.Resource
+import com.example.mymovieapp.data.network.Resource
 import com.example.mymovieapp.data.api.MovieApi
-import com.example.mymovieapp.data.mappers.movie.MovieDetailsMapper
-import com.example.mymovieapp.data.mappers.movie.MovieMapper
-import com.example.mymovieapp.data.mappers.movie.MoviesMapper
+import com.example.mymovieapp.data.mappers.network.movie.MovieDetailsMapper
+import com.example.mymovieapp.data.mappers.network.movie.MoviesMapper
 import com.example.mymovieapp.data.network.Utils
 import com.example.mymovieapp.domain.models.movie.MovieDetailsModel
-import com.example.mymovieapp.domain.models.movie.MovieModel
 import com.example.mymovieapp.domain.models.movie.MoviesModel
-import com.example.mymovieapp.domain.repositories.MovieRepository
+import com.example.mymovieapp.domain.repositories.network.MovieRepository
 
 class MovieRepositoryImpl(
     private val movieApi: MovieApi

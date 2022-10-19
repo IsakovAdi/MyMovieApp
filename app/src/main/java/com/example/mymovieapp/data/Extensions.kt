@@ -25,3 +25,11 @@ fun isMobileOnline(): Boolean {
     }
     return false
 }
+
+fun timeFormat(minutes: Int?): String {
+    return if (minutes != null) {
+        val hours = (minutes / 60)
+        val mins = (minutes % 60)
+        String.format("%02d:%02d", hours, mins)
+    } else "No value"
+}

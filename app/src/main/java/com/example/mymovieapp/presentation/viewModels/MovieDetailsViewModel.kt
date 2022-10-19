@@ -5,17 +5,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mymovieapp.data.storage.LanguageRepositoryImpl
-import com.example.mymovieapp.domain.models.MovieDetailsState
+import com.example.mymovieapp.data.storage.service.LanguageRepositoryImpl
+import com.example.mymovieapp.domain.models.movie.MovieDetailsState
 import com.example.mymovieapp.domain.models.movie.MovieDetailsModel
 import com.example.mymovieapp.domain.models.movie.MovieModel
 import com.example.mymovieapp.domain.models.movie.MoviesModel
 import com.example.mymovieapp.domain.models.person.PersonDetailsModel
 import com.example.mymovieapp.domain.usecases.language.GetLanguageUseCase
-import com.example.mymovieapp.domain.usecases.movie.GetMovieDetailsUseCase
-import com.example.mymovieapp.domain.usecases.movie.GetRecommendMoviesUseCase
-import com.example.mymovieapp.domain.usecases.movie.GetSimilarMoviesUseCase
+import com.example.mymovieapp.domain.usecases.movie.network.GetMovieDetailsUseCase
+import com.example.mymovieapp.domain.usecases.movie.network.GetRecommendMoviesUseCase
+import com.example.mymovieapp.domain.usecases.movie.network.GetSimilarMoviesUseCase
+import com.example.mymovieapp.domain.usecases.movie.storage.SaveMovieUseCase
 import com.example.mymovieapp.domain.usecases.person.GetPersonDetailsUseCase
+import com.example.mymovieapp.domain.usecases.video.GetVideosUseCase
 import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(
@@ -24,6 +26,8 @@ class MovieDetailsViewModel(
     private val getSimilarMoviesUseCase: GetSimilarMoviesUseCase,
     private val getRecommendMoviesUseCase: GetRecommendMoviesUseCase,
     private val getLanguageUseCase: GetLanguageUseCase,
+    private val saveMovieUseCase: SaveMovieUseCase,
+    private val getVideosUseCase: GetVideosUseCase
 ) : ViewModel() {
 
     private val _movie: MutableLiveData<MovieDetailsModel> = MutableLiveData()
@@ -123,6 +127,11 @@ class MovieDetailsViewModel(
         } else {
             MovieDetailsState.getUsDetails()
         }
+    }
+
+
+    fun saveMovie(movie: MovieModel) = viewModelScope.launch {
+        saveMovieUseCase.execute(movie)
     }
 
 }

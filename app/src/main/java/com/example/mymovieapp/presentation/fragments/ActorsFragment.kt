@@ -9,9 +9,8 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
-import com.example.mymovieapp.R
 import com.example.mymovieapp.databinding.FragmentActorsBinding
-import com.example.mymovieapp.presentation.adapters.MovieItemAdapter
+import com.example.mymovieapp.presentation.activities.PersonDetailsActivity
 import com.example.mymovieapp.presentation.adapters.PersonItemAdapter
 import com.example.mymovieapp.presentation.viewModels.PersonsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,14 +23,13 @@ class ActorsFragment : Fragment() {
         FragmentActorsBinding.inflate(layoutInflater)
     }
     private val personsAdapter: PersonItemAdapter by lazy {
-        PersonItemAdapter(MovieItemAdapter.PORTRAIT_TYPE)
+        PersonItemAdapter()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
-        // Inflate the layout for this fragment
         return binding.root
     }
 
@@ -87,6 +85,14 @@ class ActorsFragment : Fragment() {
             setupVisibilities()
         }
         binding.personsRv.adapter = personsAdapter
+        setupPersonsClickListener()
+    }
+
+    private fun setupPersonsClickListener() {
+        personsAdapter.onPersonItemClickListener = {
+            val intent = PersonDetailsActivity.launchPersonDetailsActivity(requireContext(), it)
+            startActivity(intent)
+        }
     }
 
     private fun setupVisibilities() {

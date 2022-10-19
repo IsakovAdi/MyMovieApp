@@ -1,6 +1,6 @@
 package com.example.mymovieapp.domain.usecases.video
 
-import com.example.mymovieapp.domain.repositories.VideoRepository
+import com.example.mymovieapp.domain.repositories.network.VideoRepository
 
 
 class GetVideosUseCase(private val repository: VideoRepository) {

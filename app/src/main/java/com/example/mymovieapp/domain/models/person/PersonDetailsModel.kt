@@ -5,17 +5,15 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class PersonDetailsModel(
-    val adult: Boolean,
-    val known_for_department: String,
-    val deathDay: String?,
-    val id: Int,
-    val name: String,
-    val also_known_as: List<String>,
-    val gender: Int,
+    val known_for_department: String,//
+    val also_known_as: List<String>,//
     val biography: String,
-    val popularity: Double,
+    val birthday:String?,//
+    val deathDay: String?,//
+    val gender: String,//
+    val id: Int,//
+    val name: String,//
+    val popularity: Double,//
     val place_of_birth: String?,
-    val profile_path: String?,
-    val imdb_id: String,
-    val homepage: String?
+    val profile_path: String?//
 ) : Parcelable

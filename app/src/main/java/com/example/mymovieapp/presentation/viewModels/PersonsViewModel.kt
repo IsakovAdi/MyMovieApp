@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mymovieapp.data.storage.LanguageRepositoryImpl
 import com.example.mymovieapp.domain.models.ResponseState
 import com.example.mymovieapp.domain.models.person.PersonsModel
 import com.example.mymovieapp.domain.usecases.language.GetLanguageUseCase
@@ -30,9 +29,7 @@ class PersonsViewModel(
     private var responsePage = 1
 
     init {
-        viewModelScope.launch {
-            _language = getLanguageUseCase.execute()
-        }
+        _language = getLanguageUseCase.execute()
     }
 
     fun getPersons() = viewModelScope.launch {

@@ -5,13 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.mymovieapp.R
 import com.example.mymovieapp.domain.models.movie.MovieModel
-import com.example.mymovieapp.presentation.ViewHolders.ObjectViewHolder
+import com.example.mymovieapp.presentation.viewHolders.ObjectViewHolder
 import com.example.mymovieapp.presentation.diffCallbacks.MovieItemDiffCallback
 
-class MovieItemAdapter(val objectViewType: Int)
-    : ListAdapter<MovieModel, ObjectViewHolder>(MovieItemDiffCallback()) {
+class MovieItemAdapter(private val objectViewType: Int) :
+    ListAdapter<MovieModel, ObjectViewHolder>(MovieItemDiffCallback()) {
 
     var onMovieItemClickListener: ((MovieModel) -> Unit)? = null
+    var onMovieItemLongClickListener: ((MovieModel) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ObjectViewHolder {
         val layout = when (viewType) {
@@ -24,11 +25,14 @@ class MovieItemAdapter(val objectViewType: Int)
     }
 
     override fun onBindViewHolder(holder: ObjectViewHolder, position: Int) {
-        val view = getItem(position)
-        holder.view.setOnClickListener {
-            onMovieItemClickListener?.invoke(view)
+        holder.view.setOnLongClickListener {
+            onMovieItemLongClickListener?.invoke(getItem(position))
+            true
         }
-        holder.bindMovie(view)
+        holder.view.setOnClickListener {
+            onMovieItemClickListener?.invoke(getItem(position))
+        }
+        holder.bindMovie(getItem(position))
     }
 
     override fun getItemViewType(position: Int): Int {

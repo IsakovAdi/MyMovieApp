@@ -1,11 +1,8 @@
 package com.example.mymovieapp.presentation.di
 
-import com.example.mymovieapp.presentation.viewModels.MovieDetailsViewModel
-import com.example.mymovieapp.presentation.viewModels.MovieFragmentViewModel
-import com.example.mymovieapp.presentation.viewModels.PersonsViewModel
-import com.example.mymovieapp.presentation.viewModels.SearchMoviesViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import com.example.mymovieapp.presentation.viewModels.*
 
 val presentation = module {
     viewModel<MovieFragmentViewModel> {
@@ -15,7 +12,8 @@ val presentation = module {
             getUpcomingMovies = get(),
             getTopRatedMoviesUseCase = get(),
             getLanguageUseCase = get(),
-            changeLanguageUseCase = get()
+            changeLanguageUseCase = get(),
+            saveMovieUseCase = get()
         )
     }
 
@@ -25,7 +23,9 @@ val presentation = module {
             getPersonDetailsUseCase = get(),
             getSimilarMoviesUseCase = get(),
             getRecommendMoviesUseCase = get(),
-            getLanguageUseCase = get()
+            getLanguageUseCase = get(),
+            saveMovieUseCase = get(),
+            getVideosUseCase = get()
         )
     }
 
@@ -37,7 +37,27 @@ val presentation = module {
     }
 
     viewModel<SearchMoviesViewModel> {
-        SearchMoviesViewModel(searchMovieUseCase = get())
+        SearchMoviesViewModel(
+            searchMovieUseCase = get(),
+            getLanguageUseCase = get(),
+            saveMovieUseCase = get()
+        )
+    }
+
+    viewModel<PersonDetailsViewModel> {
+        PersonDetailsViewModel(
+            getPersonDetailsUseCase = get(),
+            getLanguageUseCase = get(),
+            saveMovieUseCase = get()
+        )
+    }
+
+    viewModel<StorageMoviesViewModel> {
+        StorageMoviesViewModel(
+            getStorageMoviesUseCase = get(),
+            deleteMovieUseCase = get(),
+            getLanguageUseCase = get()
+        )
     }
 
 }

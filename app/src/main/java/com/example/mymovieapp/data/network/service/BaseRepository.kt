@@ -1,6 +1,6 @@
 package com.example.mymovieapp.data.network.service
 
-import com.example.mymovieapp.data.Resource
+import com.example.mymovieapp.data.network.Resource
 import com.example.mymovieapp.data.isMobileOnline
 import com.example.mymovieapp.data.network.model.error.ServiceException
 import kotlinx.coroutines.Dispatchers

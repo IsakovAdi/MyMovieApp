@@ -4,13 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mymovieapp.data.storage.LanguageRepositoryImpl
+import com.example.mymovieapp.data.storage.service.LanguageRepositoryImpl
 import com.example.mymovieapp.domain.MovieTypes
 import com.example.mymovieapp.domain.models.ResponseState
+import com.example.mymovieapp.domain.models.movie.MovieModel
 import com.example.mymovieapp.domain.models.movie.MoviesModel
 import com.example.mymovieapp.domain.usecases.language.ChangeLanguageUseCase
 import com.example.mymovieapp.domain.usecases.language.GetLanguageUseCase
-import com.example.mymovieapp.domain.usecases.movie.*
+import com.example.mymovieapp.domain.usecases.movie.network.GetNowPlayingMovies
+import com.example.mymovieapp.domain.usecases.movie.network.GetPopularMovieUseCase
+import com.example.mymovieapp.domain.usecases.movie.network.GetTopRatedMoviesUseCase
+import com.example.mymovieapp.domain.usecases.movie.network.GetUpcomingMovies
+import com.example.mymovieapp.domain.usecases.movie.storage.SaveMovieUseCase
 import kotlinx.coroutines.launch
 
 enum class MovieType {
@@ -27,6 +32,7 @@ class MovieFragmentViewModel(
     private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase,
     private val getLanguageUseCase: GetLanguageUseCase,
     private val changeLanguageUseCase: ChangeLanguageUseCase,
+    private val saveMovieUseCase: SaveMovieUseCase,
 ) : ViewModel() {
 
     private val _error: MutableLiveData<Throwable> = MutableLiveData()
@@ -184,6 +190,10 @@ class MovieFragmentViewModel(
             MovieTypes.getMovieTypesRu()
         }
         getMovies(MovieType.POPULAR)
+    }
+
+    fun saveMovie(movie: MovieModel) = viewModelScope.launch {
+        saveMovieUseCase.execute(movie)
     }
 
 }

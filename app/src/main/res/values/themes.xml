@@ -24,4 +24,16 @@
         <item name="colorSurface">@color/black</item>
         <item name="colorOnSurface">@color/whiteTransparent</item>
     </style>
+
+    <style name="MovieDetailsTextStyle.Italic" parent="MovieDetailsTextStyle">
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="MovieDetailsTextStyle" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">@dimen/movieDetailsTextSize</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 </resources>
