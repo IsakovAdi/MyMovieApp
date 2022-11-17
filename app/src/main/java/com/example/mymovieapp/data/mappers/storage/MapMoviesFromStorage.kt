@@ -1,10 +1,11 @@
 package com.example.mymovieapp.data.mappers.storage
 
+import androidx.lifecycle.LiveData
 import com.example.mymovieapp.data.mappers.Mapper
 import com.example.mymovieapp.data.storage.model.Movie
 import com.example.mymovieapp.domain.models.movie.MovieModel
 
-class MapMoviesFromStorage : Mapper<List<Movie>, List<MovieModel>>(
+class MapMoviesFromStorage : Mapper<List<Movie>,List<MovieModel>>(
     fromData = {
         it.map { movie ->
             MovieModel(

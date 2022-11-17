@@ -9,9 +9,9 @@ import com.example.mymovieapp.domain.repositories.network.VideoRepository
 
 class VideoRepositoryImpl(private val api: VideoApi) : VideoRepository, BaseRepository() {
     private val videosMapper = VideosMapper()
-    override suspend fun getVideos(movieId: Int): VideosModel =
+    override suspend fun getVideos(movieId: Int, language:String): VideosModel =
         safeApiCall {
-            api.getTrailers(movieId, Utils.API_KEY)
+            api.getTrailers(movieId, Utils.API_KEY, language)
         }.let {response->
             when(response){
                 is Resource.Success -> videosMapper.mapData(response.value)

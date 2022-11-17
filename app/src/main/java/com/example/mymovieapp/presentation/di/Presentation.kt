@@ -55,8 +55,7 @@ val presentation = module {
     viewModel<StorageMoviesViewModel> {
         StorageMoviesViewModel(
             getStorageMoviesUseCase = get(),
-            deleteMovieUseCase = get(),
-            getLanguageUseCase = get()
+            deleteMovieUseCase = get()
         )
     }
 

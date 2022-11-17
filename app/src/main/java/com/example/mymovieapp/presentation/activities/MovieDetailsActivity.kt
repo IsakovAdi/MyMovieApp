@@ -2,8 +2,10 @@ package com.example.mymovieapp.presentation.activities
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mymovieapp.R
@@ -15,13 +17,12 @@ import com.example.mymovieapp.presentation.adapters.PersonDetailsAdapter
 import com.example.mymovieapp.presentation.viewModels.MovieDetailsViewModel
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerFullScreenListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import com.squareup.picasso.Picasso
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class MovieDetailsActivity : AppCompatActivity() {
+class MovieDetailsActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private val binding: ActivityMovieDetailsBinding by lazy {
         ActivityMovieDetailsBinding.inflate(layoutInflater)
@@ -40,11 +41,15 @@ class MovieDetailsActivity : AppCompatActivity() {
     private val actorsAdapter: PersonDetailsAdapter by lazy {
         PersonDetailsAdapter()
     }
+    private lateinit var spinnerAdapter: ArrayAdapter<String>
 
     private lateinit var genresAdapter: ArrayAdapter<String>
 
+    private var trailers = emptyList<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding.videosSpinner?.onItemSelectedListener = this
         setContentView(binding.root)
         parseIntent()
         parsePageLanguage()
@@ -53,7 +58,13 @@ class MovieDetailsActivity : AppCompatActivity() {
         setupRecommendMoviesRv()
         setupSimilarMoviesRv()
         setupActors()
-        initYoutubePlayer()
+        viewModel.videos.observe(this) {
+            trailers = it
+            initSpinner()
+            initYoutubePlayer(trailers[0])
+            Log.d("workFuns", "trailers size ${trailers.size}")
+        }
+
     }
 
     private fun parseIntent() {
@@ -175,7 +186,7 @@ class MovieDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun initYoutubePlayer() {
+    private fun initYoutubePlayer(videoKey: String) {
         binding.youtubePlayer.addYouTubePlayerListener(object : YouTubePlayerListener {
             override fun onApiChange(youTubePlayer: YouTubePlayer) {
             }
@@ -199,7 +210,7 @@ class MovieDetailsActivity : AppCompatActivity() {
             }
 
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                youTubePlayer.cueVideo("eaRVaVqwyJQ", 0f)
+                youTubePlayer.cueVideo(videoKey, 0f)
             }
 
             override fun onStateChange(
@@ -212,6 +223,7 @@ class MovieDetailsActivity : AppCompatActivity() {
             }
 
             override fun onVideoId(youTubePlayer: YouTubePlayer, videoId: String) {
+
             }
 
             override fun onVideoLoadedFraction(
@@ -221,6 +233,24 @@ class MovieDetailsActivity : AppCompatActivity() {
             }
 
         })
+        Log.d("workFuns", "initYoutubePlayer")
+    }
+
+    private fun initSpinner() {
+        spinnerAdapter = ArrayAdapter(
+            this, R.layout.spinner_custom_item, trailers
+        )
+        spinnerAdapter.setDropDownViewResource(R.layout.spinner_custom_item)
+        binding.videosSpinner?.adapter = spinnerAdapter
+        Log.d("workFuns", "initSpinner")
+    }
+
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+        initYoutubePlayer(trailers[position])
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+
     }
 
     companion object {
@@ -232,5 +262,6 @@ class MovieDetailsActivity : AppCompatActivity() {
 
         private const val MOVIE = "movie"
     }
+
 
 }

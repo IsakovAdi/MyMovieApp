@@ -69,7 +69,7 @@ val domainModule = module {
     }
 
     factory<GetStorageMoviesUseCase> {
-        GetStorageMoviesUseCase(repository = get())
+        GetStorageMoviesUseCase(repository = get(), errorHandler = get())
     }
 
     factory<SaveMovieUseCase> {

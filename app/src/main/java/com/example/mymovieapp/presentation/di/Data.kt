@@ -7,6 +7,7 @@ import com.example.mymovieapp.data.network.service.PersonRepositoryImpl
 import com.example.mymovieapp.data.network.service.VideoRepositoryImpl
 import com.example.mymovieapp.data.storage.service.LanguageRepositoryImpl
 import com.example.mymovieapp.data.storage.service.MovieStorageRepositoryImpl
+import com.example.mymovieapp.domain.error.ErrorHandler
 import com.example.mymovieapp.domain.repositories.storage.LanguageRepository
 import com.example.mymovieapp.domain.repositories.network.PersonRepository
 import com.example.mymovieapp.domain.repositories.network.VideoRepository
@@ -34,6 +35,10 @@ val dataModule = module {
 
     single<MovieStorageRepository> {
         MovieStorageRepositoryImpl(application = get())
+    }
+
+    single<ErrorHandler> {
+        ErrorHandler.Base(context = get())
     }
 
 }

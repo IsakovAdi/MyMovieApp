@@ -13,7 +13,7 @@ object Endpoints {
     }
 
     object TRAILER{
-        const val MOVIE_TRAILERS = "movie/{movie_id}"
+        const val MOVIE_TRAILERS = "movie/{movie_id}/videos"
     }
     object Person{
         const val PERSON_POPULAR = "person/popular"

@@ -11,6 +11,7 @@ import com.example.mymovieapp.domain.models.movie.MovieDetailsModel
 import com.example.mymovieapp.domain.models.movie.MovieModel
 import com.example.mymovieapp.domain.models.movie.MoviesModel
 import com.example.mymovieapp.domain.models.person.PersonDetailsModel
+import com.example.mymovieapp.domain.models.video.VideoModel
 import com.example.mymovieapp.domain.usecases.language.GetLanguageUseCase
 import com.example.mymovieapp.domain.usecases.movie.network.GetMovieDetailsUseCase
 import com.example.mymovieapp.domain.usecases.movie.network.GetRecommendMoviesUseCase
@@ -27,7 +28,7 @@ class MovieDetailsViewModel(
     private val getRecommendMoviesUseCase: GetRecommendMoviesUseCase,
     private val getLanguageUseCase: GetLanguageUseCase,
     private val saveMovieUseCase: SaveMovieUseCase,
-    private val getVideosUseCase: GetVideosUseCase
+    private val getVideosUseCase: GetVideosUseCase,
 ) : ViewModel() {
 
     private val _movie: MutableLiveData<MovieDetailsModel> = MutableLiveData()
@@ -54,6 +55,14 @@ class MovieDetailsViewModel(
     private val _personsError: MutableLiveData<Throwable> = MutableLiveData()
     val personsError: LiveData<Throwable> get() = _personsError
 
+    private val _videos: MutableLiveData<List<String>> = MutableLiveData()
+    val videos: LiveData<List<String>> get() = _videos
+
+    private val _trailers:MutableLiveData<List<VideoModel>> = MutableLiveData()
+
+    private var _noVideo: String = ""
+    val noVideo get() = _noVideo
+
     private var _language = getLanguageUseCase.execute()
 
     private lateinit var _detailsState: MovieDetailsState
@@ -73,7 +82,6 @@ class MovieDetailsViewModel(
             .onFailure {
                 _similarMoviesError.value = it
             }
-        Log.d("workFuns", "getSimilarMovies")
     }
 
     fun getRecommendMovies(movieId: Int) = viewModelScope.launch {
@@ -86,7 +94,6 @@ class MovieDetailsViewModel(
             .onFailure {
                 _recommendMoviesError.value = it
             }
-        Log.d("workFuns", "getRecommendMovies")
     }
 
     fun getActors(actorsId: List<Int>?) = viewModelScope.launch {
@@ -109,6 +116,7 @@ class MovieDetailsViewModel(
     }
 
     fun getMovie(movieId: Int) = viewModelScope.launch {
+        getTrailers(movieId)
         kotlin.runCatching {
             getMovieDetailsUseCase.execute(movieId, _language)
         }
@@ -118,7 +126,6 @@ class MovieDetailsViewModel(
             .onFailure {
                 _movieError.value = it
             }
-        Log.d("workFuns", "getMovie")
     }
 
     private fun getDetailsState() {
@@ -129,9 +136,35 @@ class MovieDetailsViewModel(
         }
     }
 
-
     fun saveMovie(movie: MovieModel) = viewModelScope.launch {
         saveMovieUseCase.execute(movie)
     }
+
+    private fun getTrailers(movieId: Int) = viewModelScope.launch {
+        kotlin.runCatching {
+            getVideosUseCase.execute(movieId, _language)
+        }.onSuccess {
+            _trailers.value = it.trailerList
+        }.onFailure {
+            _noVideo = "No trailers"
+        }
+        Log.d("workFuns", "getTrailers")
+//        initVideosList(_trailers!!.value)
+    }
+
+//    private fun initVideosList(v: List<VideoModel>) {
+//        viewModelScope.launch {
+//                for (i in v.indices) {
+//                    videos.add(v[i].key)
+//                }
+//
+//            if (videos.isEmpty()) {
+//                _videos.value = videos
+//            } else {
+//                _noVideo = "No trailers"
+//            }
+//        }
+//        Log.d("workFuns", "initVideosList")
+//    }
 
 }

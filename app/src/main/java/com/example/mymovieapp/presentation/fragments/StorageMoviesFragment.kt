@@ -11,8 +11,6 @@ import com.example.mymovieapp.presentation.activities.MovieDetailsActivity
 import com.example.mymovieapp.presentation.adapters.MovieItemAdapter
 import com.example.mymovieapp.presentation.viewModels.StorageMoviesViewModel
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class StorageMoviesFragment : Fragment() {
@@ -26,6 +24,7 @@ class StorageMoviesFragment : Fragment() {
         MovieItemAdapter(MovieItemAdapter.PORTRAIT_TYPE)
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -35,21 +34,23 @@ class StorageMoviesFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.getMovies()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.moviesRv.adapter = moviesAdapter
         observeMovies()
-        viewModel.empty.observe(viewLifecycleOwner) {
-            binding.emptyText.text = it.message
-        }
+        setupRvClickListeners()
+
     }
 
     private fun observeMovies() {
-        viewModel.movies.observe(viewLifecycleOwner) {
-            moviesAdapter.submitList(it)
-            binding.moviesRv.adapter = moviesAdapter
+        lifecycleScope.launchWhenStarted {
+            viewModel.movies.collectLatest {
+                moviesAdapter.submitList(it)
+            }
         }
-        setupRvClickListeners()
+
+
     }
 
     private fun setupRvClickListeners() {
@@ -60,7 +61,6 @@ class StorageMoviesFragment : Fragment() {
 
         moviesAdapter.onMovieItemLongClickListener = {
             viewModel.deleteMovie(it.id)
-            observeMovies()
         }
     }
 
