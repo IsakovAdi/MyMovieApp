@@ -7,27 +7,42 @@
 
     <fragment
         android:id="@+id/rootFragment"
-        android:name="com.example.mymovieapp.presentation.fragments.RootFragment"
+        android:name="com.example.mymovieapp.presentation.ui.fragments.RootFragment"
         android:label="fragment_root"
-        tools:layout="@layout/fragment_root" />
+        tools:layout="@layout/fragment_root" >
+        <action
+            android:id="@+id/action_rootFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+    </fragment>
+
     <fragment
-        android:id="@+id/moviesFragment"
-        android:name="com.example.mymovieapp.presentation.fragments.MoviesFragment"
+        android:id="@+id/nav_movies"
+        android:name="com.example.mymovieapp.presentation.ui.fragments.MoviesFragment"
         android:label="fragment_movies"
         tools:layout="@layout/fragment_movies" />
     <fragment
-        android:id="@+id/searchMoviesFragment"
-        android:name="com.example.mymovieapp.presentation.fragments.SearchMoviesFragment"
+        android:id="@+id/nav_search"
+        android:name="com.example.mymovieapp.presentation.ui.fragments.SearchMoviesFragment"
         android:label="fragment_search_movies"
         tools:layout="@layout/fragment_search_movies" />
     <fragment
-        android:id="@+id/actorsFragment2"
-        android:name="com.example.mymovieapp.presentation.fragments.ActorsFragment"
+        android:id="@+id/nav_person"
+        android:name="com.example.mymovieapp.presentation.ui.fragments.ActorsFragment"
         android:label="fragment_actors"
         tools:layout="@layout/fragment_actors" />
     <fragment
-        android:id="@+id/favoriteMoviesFragment"
-        android:name="com.example.mymovieapp.presentation.fragments.StorageMoviesFragment"
+        android:id="@+id/nav_storage"
+        android:name="com.example.mymovieapp.presentation.ui.fragments.StorageMoviesFragment"
         android:label="fragment_favorite_movies"
         tools:layout="@layout/fragment_storage_movies" />
+    <fragment
+        android:id="@+id/movieDetailsFragment"
+        android:name="com.example.mymovieapp.presentation.ui.fragments.MovieDetailsFragment"
+        android:label="fragment_movie_details"
+        tools:layout="@layout/fragment_movie_details">
+        <argument
+            android:name="movie"
+            app:argType="com.example.mymovieapp.presentation.models.movie.MovieUi" />
+    </fragment>
+
 </navigation>

@@ -1,7 +1,8 @@
 package com.example.mymovieapp.domain.repositories.network
 
-import com.example.mymovieapp.domain.models.video.VideosModel
+import com.example.mymovieapp.domain.models.video.VideosResponseDomain
+import kotlinx.coroutines.flow.Flow
 
 interface VideoRepository {
-    suspend fun getVideos(movieId: Int,language:String): VideosModel
+    fun getVideos(movieId: Int): Flow<VideosResponseDomain>
 }

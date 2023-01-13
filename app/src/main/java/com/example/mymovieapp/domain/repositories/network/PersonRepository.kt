@@ -1,9 +1,11 @@
 package com.example.mymovieapp.domain.repositories.network
 
-import com.example.mymovieapp.domain.models.person.PersonDetailsModel
-import com.example.mymovieapp.domain.models.person.PersonsModel
+import com.example.mymovieapp.domain.DataRequestState
+import com.example.mymovieapp.domain.models.person.PersonDetailsDomain
+import com.example.mymovieapp.domain.models.person.PersonsResponseDomain
+import kotlinx.coroutines.flow.Flow
 
 interface PersonRepository {
-    suspend fun getPersons(language:String, page:Int): PersonsModel
-    suspend fun getPersonDetails(personId:Int, language:String) : PersonDetailsModel
+    fun getPersons(page: Int): Flow<PersonsResponseDomain>
+    suspend fun getPersonDetails(personId: Int): DataRequestState<PersonDetailsDomain>
 }
