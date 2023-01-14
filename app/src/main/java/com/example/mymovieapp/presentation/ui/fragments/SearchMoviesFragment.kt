@@ -10,12 +10,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.mymovieapp.databinding.FragmentSearchMoviesBinding
+import com.example.mymovieapp.domain.DataRequestState
+import com.example.mymovieapp.domain.takeSuccess
 import com.example.mymovieapp.presentation.models.movie.MovieUi
 import com.example.mymovieapp.presentation.ui.adapters.MovieItemAdapter
 import com.example.mymovieapp.presentation.ui.adapters.RvClickListener
 import com.example.mymovieapp.presentation.ui.viewModels.SearchMoviesViewModel
 import com.example.mymovieapp.presentation.ui.viewModels.makeToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
@@ -55,18 +59,14 @@ class SearchMoviesFragment
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
-                    viewModel.changeKeyword(query = query)
-                } else {
-                    viewModel.changeKeyword("u")
+                    viewModel.searchMovie(query)
                 }
                 return false
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
                 if (query != null) {
-                    viewModel.changeKeyword(query = query)
-                } else {
-                    viewModel.changeKeyword("u")
+                    viewModel.searchMovie(query)
                 }
                 return false
             }
@@ -79,7 +79,7 @@ class SearchMoviesFragment
         }
 
         lifecycleScope.launchWhenResumed {
-            viewModel.movies.collect {
+            viewModel.movies.collectLatest {
                 moviesAdapter.moviesList = it.movies
             }
         }

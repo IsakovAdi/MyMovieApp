@@ -50,13 +50,19 @@ class MovieCloudDataSourceImpl(
         }.flowOn(dispatchersProvider.io()).map { it.body()!! }.map(movieResponseMapper::map)
             .flowOn(dispatchersProvider.default())
 
-    override fun searchMovie(
+//    override fun searchMovie(
+//        query: String?,
+//    ): Flow<MoviesResponseData> =
+//        flow {
+//            emit(api.searchMovie(query = query))
+//        }.flowOn(dispatchersProvider.io()).map { it.body()!! }.map(movieResponseMapper::map)
+//            .flowOn(dispatchersProvider.default())
+    override suspend fun searchMovie(
         query: String?,
-    ): Flow<MoviesResponseData> =
-        flow {
-            emit(api.searchMovie(query = query))
-        }.flowOn(dispatchersProvider.io()).map { it.body()!! }.map(movieResponseMapper::map)
-            .flowOn(dispatchersProvider.default())
+    ): DataRequestState<MoviesResponseData> =
+        responseHandler.safeApiMapperCall(movieResponseMapper) {
+            api.searchMovie(query = query)
+        }
 
     override fun getSimilarMovies(
         movieId: Int,
@@ -72,7 +78,6 @@ class MovieCloudDataSourceImpl(
         flow {
             emit(api.getRecommendMovies(movieId = movieId))
         }.flowOn(dispatchersProvider.io()).map { it.body()!! }.map(movieResponseMapper::map)
-
 
     override suspend fun getMovieDetails(
         movieId: Int,

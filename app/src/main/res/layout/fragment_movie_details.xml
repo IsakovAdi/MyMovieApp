@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/darkBlue"
     tools:context=".presentation.ui.fragments.MovieDetailsFragment">
 
@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="@color/black"
+            app:contentScrim="@color/darkBlue"
             app:expandedTitleMarginBottom="20dp"
             app:expandedTitleMarginStart="15dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
@@ -34,8 +34,10 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
+                android:fitsSystemWindows="true"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
+                android:backgroundTint="@color/darkBlue"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
 
@@ -77,6 +79,7 @@
                     android:layout_marginStart="2dp"
                     android:layout_marginTop="@dimen/movieDetailsTextMarginTop"
                     android:layout_marginEnd="2dp"
+                    android:text="Название:"
                     app:layout_constraintEnd_toStartOf="@+id/guideline"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -94,6 +97,7 @@
                     android:id="@+id/moviePopularity"
                     style="@style/MovieDetailsTextStyle"
                     android:layout_marginTop="@dimen/movieDetailsTextMarginTop"
+                    android:text="Popularity"
                     app:layout_constraintEnd_toEndOf="@id/movieTitle"
                     app:layout_constraintStart_toStartOf="@id/movieTitle"
                     app:layout_constraintTop_toBottomOf="@id/title" />
@@ -109,6 +113,7 @@
                     android:id="@+id/movieVoteCount"
                     style="@style/MovieDetailsTextStyle"
                     android:layout_marginTop="@dimen/movieDetailsTextMarginTop"
+                    android:text="Проголосовали:"
                     app:layout_constraintEnd_toEndOf="@id/movieTitle"
                     app:layout_constraintStart_toStartOf="@id/movieTitle"
                     app:layout_constraintTop_toBottomOf="@id/moviePopularity" />
@@ -124,6 +129,7 @@
                     android:id="@+id/movieBudget"
                     style="@style/MovieDetailsTextStyle"
                     android:layout_marginTop="@dimen/movieDetailsTextMarginTop"
+                    android:text="Бюджет:"
                     app:layout_constraintEnd_toEndOf="@id/movieTitle"
                     app:layout_constraintStart_toStartOf="@id/movieTitle"
                     app:layout_constraintTop_toBottomOf="@id/movieVoteCount" />
@@ -139,6 +145,7 @@
                     android:id="@+id/movieVoteAverage"
                     style="@style/MovieDetailsTextStyle"
                     android:layout_marginTop="@dimen/movieDetailsTextMarginTop"
+                    android:text="Рейтинг:"
                     app:layout_constraintEnd_toEndOf="@id/movieTitle"
                     app:layout_constraintStart_toStartOf="@id/movieTitle"
                     app:layout_constraintTop_toBottomOf="@id/movieBudget" />
@@ -163,6 +170,7 @@
                     android:id="@+id/movieOriginalLanguage"
                     style="@style/MovieDetailsTextStyle"
                     android:layout_marginTop="@dimen/movieDetailsTextMarginTop"
+                    android:text="Оригинальный язык:"
                     app:layout_constraintEnd_toEndOf="@id/movieTitle"
                     app:layout_constraintStart_toStartOf="@id/movieTitle"
                     app:layout_constraintTop_toBottomOf="@id/movieVoteAverage" />
@@ -195,6 +203,7 @@
                         android:layout_marginStart="2dp"
                         android:layout_marginTop="@dimen/movieDetailsTextMarginTop"
                         android:layout_marginEnd="2dp"
+                        android:text="Оригинальное название"
                         app:layout_constraintEnd_toStartOf="@id/guideline2"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -215,6 +224,7 @@
                     android:id="@+id/movieReleaseDate"
                     style="@style/MovieDetailsTextStyle"
                     android:layout_marginTop="@dimen/movieDetailsTextMarginTop"
+                    android:text="Дата релиза:"
                     app:layout_constraintEnd_toEndOf="@id/movieTitle"
                     app:layout_constraintStart_toStartOf="@id/movieTitle"
                     app:layout_constraintTop_toBottomOf="@id/titleConstraint" />
@@ -230,6 +240,7 @@
                     android:id="@+id/movieRuntime"
                     style="@style/MovieDetailsTextStyle"
                     android:layout_marginTop="@dimen/movieDetailsTextMarginTop"
+                    android:text="Продолжительность"
                     app:layout_constraintEnd_toEndOf="@id/movieTitle"
                     app:layout_constraintStart_toStartOf="@id/movieTitle"
                     app:layout_constraintTop_toBottomOf="@id/movieReleaseDate" />
@@ -245,6 +256,7 @@
                     android:id="@+id/movieGenres"
                     style="@style/MovieDetailsTextStyle"
                     android:layout_marginTop="@dimen/movieDetailsTextMarginTop"
+                    android:text="Жанры:"
                     app:layout_constraintEnd_toEndOf="@id/movieTitle"
                     app:layout_constraintStart_toStartOf="@id/movieTitle"
                     app:layout_constraintTop_toBottomOf="@id/movieRuntime" />
@@ -263,6 +275,7 @@
                     android:id="@+id/movieStatus"
                     style="@style/MovieDetailsTextStyle"
                     android:layout_marginTop="@dimen/movieDetailsTextMarginTop"
+                    android:text="Статус:"
                     app:layout_constraintEnd_toEndOf="@id/movieTitle"
                     app:layout_constraintStart_toStartOf="@id/movieTitle"
                     app:layout_constraintTop_toBottomOf="@id/movieGenres" />
@@ -278,6 +291,7 @@
                     android:id="@+id/movieOverview"
                     style="@style/MovieDetailsTextStyle"
                     android:layout_marginTop="@dimen/movieDetailsTextMarginTop"
+                    android:text="Описание:"
                     app:layout_constraintEnd_toEndOf="@id/movieTitle"
                     app:layout_constraintStart_toStartOf="@id/movieTitle"
                     app:layout_constraintTop_toBottomOf="@id/movieStatus" />
@@ -313,6 +327,7 @@
                     android:layout_marginStart="2dp"
                     android:layout_marginTop="@dimen/movieDetailsTextMarginTop"
                     android:layout_marginEnd="2dp"
+                    android:text="В ролях:"
                     app:layout_constraintEnd_toStartOf="@id/guideline3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -333,6 +348,7 @@
                     android:id="@+id/videoText"
                     style="@style/MovieDetailsTextStyle"
                     android:layout_marginTop="@dimen/movieDetailsTextMarginTop"
+                    android:text="Трейлеры и фрагменты"
                     app:layout_constraintEnd_toEndOf="@id/actorsText"
                     app:layout_constraintStart_toStartOf="@id/actorsText"
                     app:layout_constraintTop_toBottomOf="@id/actorsRv" />
@@ -365,6 +381,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:text="Похожие фильмы:"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -387,6 +404,7 @@
                     android:id="@+id/recommendMoviesText"
                     style="@style/MovieDetailsTextStyle"
                     android:layout_marginTop="@dimen/movieDetailsTextMarginTop"
+                    android:text="Также рекомендуются"
                     app:layout_constraintEnd_toEndOf="@id/actorsText"
                     app:layout_constraintStart_toStartOf="@id/actorsText"
                     app:layout_constraintTop_toBottomOf="@id/similarMoviesRv" />

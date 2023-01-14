@@ -16,17 +16,9 @@ class RootFragment : Fragment() {
         FragmentRootBinding.inflate(layoutInflater)
     }
 
-    private val fragments by lazy {
-        arrayListOf<Fragment>(MoviesFragment(),
-            SearchMoviesFragment(),
-            ActorsFragment(),
-            StorageMoviesFragment())
-    }
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
         val fragmentList = arrayListOf(
@@ -39,20 +31,16 @@ class RootFragment : Fragment() {
         )
         binding.viewPager.adapter = adapter
         binding.viewPager.isSaveEnabled = false
-        TabLayoutMediator(binding.tableLayout, binding.viewPager){ tab, position->
-            when (position){
-                0-> {
-                    tab.setIcon(R.drawable.ic_movie)
-                }
-                1-> {
-                    tab.setIcon(R.drawable.ic_search)
-                }
-                2-> {
-                    tab.setIcon(R.drawable.ic_person)
-                }
-                3->{
-                    tab.setIcon(R.drawable.ic_tv)
-                }
+        TabLayoutMediator(binding.tableLayout, binding.viewPager) { tab, position ->
+            when (position) {
+                0 -> tab.setIcon(R.drawable.ic_movie)
+
+                1 -> tab.setIcon(R.drawable.ic_search)
+
+                2 -> tab.setIcon(R.drawable.ic_person)
+
+                3 -> tab.setIcon(R.drawable.ic_tv)
+
             }
         }.attach()
         return binding.root

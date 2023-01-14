@@ -16,7 +16,7 @@ class MovieItemAdapter(
 
     var moviesList = listOf<MovieUi>()
         set(value) {
-            val callback = MovieDiffCallback(value,moviesList)
+            val callback = MovieDiffCallback(moviesList, value)
             val diffResult = DiffUtil.calculateDiff(callback)
             diffResult.dispatchUpdatesTo(this)
             field = value

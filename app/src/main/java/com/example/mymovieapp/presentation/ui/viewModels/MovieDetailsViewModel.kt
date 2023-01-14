@@ -1,5 +1,6 @@
 package com.example.mymovieapp.presentation.ui.viewModels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mymovieapp.data.cloud.base.ResourceProvider
@@ -38,35 +39,48 @@ class MovieDetailsViewModel constructor(
     private val personsIds = MutableStateFlow(actorsIds)
 
     val movieFlow = movieIdFlow.map(movieRepository::getMovieDetails)
-        .map { it.map(mapMovieDetails) }.onEach {
-            when (it) {
-                is DataRequestState.Success -> {
-                    it.data
-                }
-            }
-        }
+        .map { it.map(mapMovieDetails) }
+
+//    val persons = personsIds.flatMapLatest(getMovieActorsUseCase::invoke)
+//        .map { it.map { it.takeSuccess() }.filterNotNull() }
+//        .map(mapPersons::map)
 
     val persons = personsIds.flatMapLatest(getMovieActorsUseCase::invoke)
-        .map { it.map { it.takeSuccess() }.filterNotNull() }
+        .map { it -> it.mapNotNull { it.takeSuccess() } }
+        .onEach {
+            it.forEach {
+                Log.d("MY_LOG", it.name)
+            }
+        }
         .map(mapPersons::map)
-//
-//    val similarMoviesFlow = movieIdFlow.flatMapLatest {
-//        movieRepository.getSimilarMovies(it)
-//    }.map(mapMovieResponse::map)
-//        .flowOn(dispatchersProvider.default())
-//        .catch { throwable: Throwable ->
-//            _error.emit(resourceProvider.handleException(throwable = throwable))
-//        }
-//        .shareIn(viewModelScope, SharingStarted.Lazily, 1)
-//
-//    val recommendMoviesFlow = movieIdFlow.flatMapLatest {
-//        movieRepository.getRecommendMovies(it)
-//    }.map(mapMovieResponse::map)
-//        .flowOn(dispatchersProvider.default())
-//        .catch { throwable: Throwable ->
-//            _error.emit(resourceProvider.handleException(throwable = throwable))
-//        }
-//        .shareIn(viewModelScope, SharingStarted.Lazily, 1)
+
+    val similarMoviesFlow = movieIdFlow.flatMapLatest {
+        movieRepository.getSimilarMovies(it)
+    }.map(mapMovieResponse::map)
+        .flowOn(dispatchersProvider.default())
+        .onEach {
+            it.movies.forEach {
+                Log.d("MY_LOG", it.title.toString())
+            }
+        }
+        .catch { throwable: Throwable ->
+            _error.emit(resourceProvider.handleException(throwable = throwable))
+        }
+        .shareIn(viewModelScope, SharingStarted.Lazily, 1)
+
+    val recommendMoviesFlow = movieIdFlow.flatMapLatest {
+        movieRepository.getRecommendMovies(it)
+    }.map(mapMovieResponse::map)
+        .flowOn(dispatchersProvider.default())
+        .onEach {
+            it.movies.forEach {
+                Log.d("MY_LOG", it.title.toString())
+            }
+        }
+        .catch { throwable: Throwable ->
+            _error.emit(resourceProvider.handleException(throwable = throwable))
+        }
+        .shareIn(viewModelScope, SharingStarted.Lazily, 1)
 
 
 }

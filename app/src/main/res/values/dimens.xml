@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="movieDetailsTextSize">15sp</dimen>
+    <dimen name="movieDetailsTextSize">14sp</dimen>
     <dimen name="movieDetailsTextMarginTop">8dp</dimen>
 </resources>

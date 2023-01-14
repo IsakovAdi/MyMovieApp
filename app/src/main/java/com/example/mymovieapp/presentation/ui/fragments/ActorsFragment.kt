@@ -48,9 +48,11 @@ class ActorsFragment : Fragment(), RvClickListener<PersonUi> {
             personsRv.adapter = personsAdapter
             nextBtn.setOnClickListener {
                 viewModel.nextPage()
+                mainScrollView.fullScroll(ScrollView.FOCUS_UP)
             }
             prevBtn.setOnClickListener {
                 viewModel.previousPage()
+                mainScrollView.fullScroll(ScrollView.FOCUS_UP)
             }
         }
     }
@@ -63,6 +65,7 @@ class ActorsFragment : Fragment(), RvClickListener<PersonUi> {
         lifecycleScope.launchWhenResumed {
             viewModel.persons.collectLatest {
                 personsAdapter.personsList = it.persons
+                binding.pageConstraint.visibility = View.VISIBLE
             }
         }
 

@@ -57,7 +57,7 @@ interface MovieApi {
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String = Utils.API_KEY,
         @Query("language") language: String? = "ru",
-        @Query("page") page: Int? = 1,
+        @Query("page") page: Int = 1,
     ): Response<MoviesResponseCloud>
 
     @GET(RECOMMENDATIONS)

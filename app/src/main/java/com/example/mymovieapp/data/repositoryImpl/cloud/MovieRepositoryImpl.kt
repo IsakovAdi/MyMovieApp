@@ -39,10 +39,14 @@ class MovieRepositoryImpl(
             .map(mapMovieResponse::map)
             .flowOn(dispatchersProvider.default())
 
-    override fun searchMovie(query: String?): Flow<MoviesResponseDomain> =
+//    override fun searchMovie(query: String?): Flow<MoviesResponseDomain> =
+//        movieCloudDataSource.searchMovie(query = query)
+//            .map(mapMovieResponse::map)
+//            .flowOn(dispatchersProvider.default())
+    override suspend fun searchMovie(query: String?): DataRequestState<MoviesResponseDomain> =
         movieCloudDataSource.searchMovie(query = query)
-            .map(mapMovieResponse::map)
-            .flowOn(dispatchersProvider.default())
+            .map(mapMovieResponse)
+
 
     override fun getSimilarMovies(movieId: Int): Flow<MoviesResponseDomain> =
         movieCloudDataSource.getSimilarMovies(movieId = movieId)

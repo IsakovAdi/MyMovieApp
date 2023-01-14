@@ -10,6 +10,7 @@ import android.widget.ScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.mymovieapp.R
 import com.example.mymovieapp.databinding.FragmentMoviesBinding
 import com.example.mymovieapp.presentation.models.movie.MovieUi
@@ -23,9 +24,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-class MoviesFragment :
-    Fragment(),
-    RvClickListener<MovieUi> {
+class MoviesFragment : Fragment(), RvClickListener<MovieUi> {
 
     private val viewModel by viewModels<MoviesFragmentViewModel>()
     private val binding: FragmentMoviesBinding by lazy {
@@ -56,18 +55,22 @@ class MoviesFragment :
                 popularMoviesItem.setOnClickListener {
                     viewModel.changeMovieCategory(MovieTypes.POPULAR)
                     selectedMovieCategoryText.text = getString(R.string.popular_category)
+                    scrollView.fullScroll(ScrollView.FOCUS_UP)
                 }
                 topRatedMoviesItem.setOnClickListener {
                     viewModel.changeMovieCategory(MovieTypes.TOP_RATED)
                     selectedMovieCategoryText.text = getString(R.string.top_rated_category)
+                    scrollView.fullScroll(ScrollView.FOCUS_UP)
                 }
                 nowPlayingMoviesItem.setOnClickListener {
                     viewModel.changeMovieCategory(MovieTypes.NOW_PLAYING)
                     selectedMovieCategoryText.text = getString(R.string.now_playing_category)
+                    scrollView.fullScroll(ScrollView.FOCUS_UP)
                 }
                 upcomingMoviesItem.setOnClickListener {
                     viewModel.changeMovieCategory(MovieTypes.UPCOMING)
                     selectedMovieCategoryText.text = getString(R.string.upcoming_category)
+                    scrollView.fullScroll(ScrollView.FOCUS_UP)
                 }
             }
 
@@ -94,6 +97,7 @@ class MoviesFragment :
         lifecycleScope.launchWhenResumed {
             viewModel.movies.collectLatest {
                 moviesAdapter.moviesList = it.movies
+                binding.pageConstraint.visibility = View.VISIBLE
             }
         }
 
@@ -117,12 +121,9 @@ class MoviesFragment :
     }
 
     override fun onItemClick(item: MovieUi) {
-        viewModel.saveMovie(item)
+        findNavController().navigate(RootFragmentDirections.actionRootFragmentToMovieDetailsFragment(
+            item))
     }
-//    {
-//        findNavController().navigate(
-//            RootFragmentDirections.actionRootFragmentToMovieDetailsFragment2(movie))
-//    }
 
     override fun onLongClick(item: MovieUi) = Unit
 //    {
