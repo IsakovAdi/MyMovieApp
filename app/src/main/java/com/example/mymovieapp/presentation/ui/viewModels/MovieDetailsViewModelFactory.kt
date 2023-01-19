@@ -5,14 +5,21 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.mymovieapp.data.cloud.base.ResourceProvider
 import com.example.mymovieapp.domain.GetMovieActorsUseCase
 import com.example.mymovieapp.domain.Mapper
+import com.example.mymovieapp.domain.SaveMovieFromDetailsUseCase
 import com.example.mymovieapp.domain.helper.DispatchersProvider
 import com.example.mymovieapp.domain.models.movie.MovieDetailsDomain
+import com.example.mymovieapp.domain.models.movie.MovieDomain
 import com.example.mymovieapp.domain.models.movie.MoviesResponseDomain
 import com.example.mymovieapp.domain.models.person.PersonDetailsDomain
+import com.example.mymovieapp.domain.models.video.VideosResponseDomain
 import com.example.mymovieapp.domain.repositories.network.MovieRepository
+import com.example.mymovieapp.domain.repositories.network.VideoRepository
+import com.example.mymovieapp.domain.repositories.storage.MovieStorageRepository
 import com.example.mymovieapp.presentation.models.movie.MovieDetailsUi
+import com.example.mymovieapp.presentation.models.movie.MovieUi
 import com.example.mymovieapp.presentation.models.movie.MoviesResponseUi
 import com.example.mymovieapp.presentation.models.person.PersonDetailsUi
+import com.example.mymovieapp.presentation.models.video.VideosResponseUi
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -28,11 +35,15 @@ class MovieDetailsViewModelFactory @AssistedInject constructor(
     private val mapMovieDetails: Mapper<MovieDetailsDomain, MovieDetailsUi>,
     private val mapMovieResponse: Mapper<MoviesResponseDomain, MoviesResponseUi>,
     private val mapPersons: Mapper<List<PersonDetailsDomain>, List<PersonDetailsUi>>,
+    private val videosResponseMapper: Mapper<VideosResponseDomain, VideosResponseUi>,
+    private val videoRepository: VideoRepository,
     private val dispatchersProvider: DispatchersProvider,
     private val resourceProvider: ResourceProvider,
     private val getMovieActorsUseCase: GetMovieActorsUseCase,
-
-    ) : ViewModelProvider.Factory {
+    private val saveMovieFromDetailsUseCase: SaveMovieFromDetailsUseCase,
+    private val movieStorageRepository: MovieStorageRepository,
+    private val mapMovieToDomain: Mapper<MovieUi, MovieDomain>,
+) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         require(modelClass == MovieDetailsViewModel::class.java)
@@ -45,7 +56,12 @@ class MovieDetailsViewModelFactory @AssistedInject constructor(
             mapPersons = mapPersons,
             dispatchersProvider = dispatchersProvider,
             resourceProvider = resourceProvider,
-            getMovieActorsUseCase = getMovieActorsUseCase
+            getMovieActorsUseCase = getMovieActorsUseCase,
+            saveMovieFromDetailsUseCase = saveMovieFromDetailsUseCase,
+            movieStorageRepository = movieStorageRepository,
+            mapMovieToDomain = mapMovieToDomain,
+            videoResponseMapper = videosResponseMapper,
+            videoRepository = videoRepository
         ) as T
     }
 

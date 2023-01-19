@@ -12,8 +12,9 @@ import com.example.mymovieapp.domain.repositories.network.PersonRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class PersonRepositoryImpl(
+class PersonRepositoryImpl (
     private val personCloudDataSource: PersonCloudDataSource,
     private val mapPersonResponse: Mapper<PersonsResponseData, PersonsResponseDomain>,
     private val mapPersonDetails: Mapper<PersonDetailsData, PersonDetailsDomain>,

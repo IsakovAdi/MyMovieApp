@@ -2,6 +2,7 @@ package com.example.mymovieapp.presentation.ui.viewHolders
 
 import android.view.View
 import android.widget.ImageView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymovieapp.R
 import com.example.mymovieapp.data.cloud.Utils
@@ -14,9 +15,11 @@ import com.vaibhavlakhera.circularprogressview.CircularProgressView
 class ObjectViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
     private val image = view.findViewById<ImageView>(R.id.posterImage)
     private val progressView = view.findViewById<CircularProgressView>(R.id.progressView)
+    private val star = view.findViewById<ImageView>(R.id.like)
 
     fun bindMovie(movie: MovieUi) {
         bind(movie.posterPath, movie.rating)
+        star.visibility = View.VISIBLE
     }
 
     fun bindPerson(person: PersonUi) {

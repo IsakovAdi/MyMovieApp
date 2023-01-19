@@ -121,13 +121,13 @@ class MoviesFragment : Fragment(), RvClickListener<MovieUi> {
     }
 
     override fun onItemClick(item: MovieUi) {
-        findNavController().navigate(RootFragmentDirections.actionRootFragmentToMovieDetailsFragment(
-            item))
+        findNavController().navigate(
+            MoviesFragmentDirections
+                .actionNavMoviesToMovieDetailsFragment(item))
     }
 
-    override fun onLongClick(item: MovieUi) = Unit
-//    {
-//        viewModel.saveMovie(movie)
-//        makeToast("Фильм ${movie.title} сохранен")
-//    }
+    override fun onStarClick(item: MovieUi) {
+        viewModel.saveMovie(movieUi = item)
+        makeToast("Фильм ${item.title} сохранен", requireContext())
+    }
 }

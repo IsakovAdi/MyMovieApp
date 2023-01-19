@@ -9,6 +9,7 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.mymovieapp.databinding.FragmentSearchMoviesBinding
 import com.example.mymovieapp.domain.DataRequestState
 import com.example.mymovieapp.domain.takeSuccess
@@ -85,8 +86,15 @@ class SearchMoviesFragment
         }
     }
 
-    override fun onItemClick(item: MovieUi) = Unit
+    override fun onItemClick(item: MovieUi) {
+        findNavController().navigate(
+            SearchMoviesFragmentDirections
+                .actionNavSearchToMovieDetailsFragment(item))
+    }
 
-    override fun onLongClick(item: MovieUi) = Unit
+    override fun onStarClick(item: MovieUi) {
+        viewModel.saveMovie(movie = item)
+        makeToast("Фильм ${item.title} сохранен", requireContext())
+    }
 
 }

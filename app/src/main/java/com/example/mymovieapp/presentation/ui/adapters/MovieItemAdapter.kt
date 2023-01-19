@@ -2,12 +2,14 @@ package com.example.mymovieapp.presentation.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mymovieapp.R
 import com.example.mymovieapp.presentation.models.movie.MovieUi
 import com.example.mymovieapp.presentation.ui.diffCallbacks.MovieDiffCallback
 import com.example.mymovieapp.presentation.ui.viewHolders.ObjectViewHolder
+import kotlinx.android.synthetic.main.object_item_portrait.view.*
 
 class MovieItemAdapter(
     private val objectViewType: Int,
@@ -36,11 +38,12 @@ class MovieItemAdapter(
         holder.view.setOnClickListener {
             listener.onItemClick(item = moviesList[position])
         }
-        holder.view.setOnLongClickListener {
-            listener.onLongClick(item = moviesList[position])
-            true
+
+        holder.view.like.setOnClickListener {
+            listener.onStarClick(item = moviesList[position])
         }
         holder.bindMovie(movie = moviesList[position])
+
 
     }
 

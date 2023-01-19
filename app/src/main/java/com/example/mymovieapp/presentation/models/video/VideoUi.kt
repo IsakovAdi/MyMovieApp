@@ -11,4 +11,5 @@ data class VideoUi(
     val site: String,
     val size: Int,
     val type: String,
+    var isClicked: Boolean? = false,
 )

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import com.example.mymovieapp.databinding.FragmentStorageMoviesBinding
 import com.example.mymovieapp.presentation.models.movie.MovieUi
 import com.example.mymovieapp.presentation.ui.adapters.MovieItemAdapter
@@ -50,16 +51,18 @@ class StorageMoviesFragment : Fragment(), RvClickListener<MovieUi> {
     }
 
     override fun onItemClick(item: MovieUi) {
-        viewModel.deleteMovie(item.id)
+        findNavController().navigate(
+            StorageMoviesFragmentDirections
+                .actionNavStorageToMovieDetailsFragment(item))
     }
 
-    override fun onLongClick(item: MovieUi) = Unit
+    override fun onStarClick(item: MovieUi) = Unit
 
     private fun observeMovies() {
         viewModel.error.onEach {
             makeToast(it, requireContext())
         }
-        lifecycleScope.launchWhenStarted{
+        lifecycleScope.launchWhenStarted {
             viewModel.storageMovies
                 .onEach {
                     if (it.isNotEmpty()) {

@@ -5,7 +5,7 @@
     android:id="@+id/mainScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkBlue"
+    android:background="@color/black"
     app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
     tools:context=".presentation.ui.fragments.ActorsFragment">
 
@@ -43,7 +43,7 @@
                 android:layout_marginBottom="4dp"
                 android:text="prev"
                 app:icon="@drawable/ic_previous"
-                app:iconTint="@color/darkBlue"
+                app:iconTint="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -89,7 +89,7 @@
                 android:text="next"
                 app:icon="@drawable/ic_next"
                 app:iconGravity="end"
-                app:iconTint="@color/darkBlue"
+                app:iconTint="@color/black"
                 app:layout_constraintBottom_toBottomOf="@id/prev_btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/prev_btn" />

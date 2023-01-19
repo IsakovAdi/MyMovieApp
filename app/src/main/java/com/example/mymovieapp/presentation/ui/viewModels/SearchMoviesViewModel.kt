@@ -1,11 +1,9 @@
 package com.example.mymovieapp.presentation.ui.viewModels
 
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mymovieapp.data.cloud.base.ResourceProvider
-import com.example.mymovieapp.domain.DataRequestState
 import com.example.mymovieapp.domain.Mapper
 import com.example.mymovieapp.domain.helper.DispatchersProvider
 import com.example.mymovieapp.domain.models.movie.MovieDomain
@@ -16,7 +14,8 @@ import com.example.mymovieapp.domain.takeSuccess
 import com.example.mymovieapp.presentation.models.movie.MovieUi
 import com.example.mymovieapp.presentation.models.movie.MoviesResponseUi
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,18 +34,6 @@ class SearchMoviesViewModel @Inject constructor(
 
     val movies = createMutableSharedFlowAsLiveData<MoviesResponseUi>()
 
-//    val movies = searchKeyword.flatMapLatest {
-//        repository.searchMovie(it)
-//    }.map(mapMovieResponse::map)
-//        .flowOn(dispatchersProvider.default())
-//        .catch { throwable: Throwable ->
-//            _error.emit(resourceProvider.handleException(throwable))
-//        }
-//        .shareIn(viewModelScope, SharingStarted.Lazily, 1)
-
-    //    val movies = searchMovieKeyword.map(repository::searchMovie)
-//        .map { it.map(mapMovieResponse) }
-//
     fun searchMovie(query: String) = viewModelScope.launch {
         kotlin.runCatching {
             repository.searchMovie(query)
@@ -60,6 +47,6 @@ class SearchMoviesViewModel @Inject constructor(
     }
 
     fun saveMovie(movie: MovieUi) = viewModelScope.launch {
-        storageRepository.saveMovieToDatabase(mapMovieToDomain.map(movie))
+        storageRepository.saveMovieToDatabase(movie = mapMovieToDomain.map(movie))
     }
 }

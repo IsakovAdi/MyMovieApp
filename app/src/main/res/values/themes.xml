@@ -12,7 +12,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Widget.App.TabLayout" parent="Widget.MaterialComponents.TabLayout">
+    <style name="Widget.App.TabLayout" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.TabLayout</item>
     </style>
 
@@ -20,6 +20,7 @@
         <item name="tabIconTint">@color/icons_color</item>
         <item name="colorPrimary">@color/colorAccent</item>
         <item name="colorOnSurface">@color/white</item>
+        <item name="backgroundTint">@color/black</item>
     </style>
 
     <style name="MovieDetailsTextStyle.Italic" parent="MovieDetailsTextStyle">
@@ -69,6 +70,16 @@
         <item name="android:focusable">true</item>
         <item name="rippleColor">@color/colorAccent</item>
         <item name="layout_constraintDimensionRatio">1.3:1</item>
+    </style>
+
+    <style name="TopRoundedCardViewStyle" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance_custom_corners</item>
+    </style>
+
+    <style name="ShapeAppearance_custom_corners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">8dp</item>
+        <item name="cornerSizeTopRight">8dp</item>
     </style>
 
 </resources>

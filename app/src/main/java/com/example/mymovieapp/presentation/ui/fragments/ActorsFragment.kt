@@ -90,5 +90,5 @@ class ActorsFragment : Fragment(), RvClickListener<PersonUi> {
 
     override fun onItemClick(item: PersonUi) = Unit
 
-    override fun onLongClick(item: PersonUi) = Unit
+    override fun onStarClick(item: PersonUi) = Unit
 }
