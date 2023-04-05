@@ -9,7 +9,6 @@ import com.example.mymovieapp.R
 import com.example.mymovieapp.presentation.models.movie.MovieUi
 import com.example.mymovieapp.presentation.ui.diffCallbacks.MovieDiffCallback
 import com.example.mymovieapp.presentation.ui.viewHolders.ObjectViewHolder
-import kotlinx.android.synthetic.main.object_item_portrait.view.*
 
 class MovieItemAdapter(
     private val objectViewType: Int,
@@ -37,10 +36,6 @@ class MovieItemAdapter(
     override fun onBindViewHolder(holder: ObjectViewHolder, position: Int) {
         holder.view.setOnClickListener {
             listener.onItemClick(item = moviesList[position])
-        }
-
-        holder.view.like.setOnClickListener {
-            listener.onStarClick(item = moviesList[position])
         }
         holder.bindMovie(movie = moviesList[position])
 

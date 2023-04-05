@@ -62,7 +62,7 @@ class StorageMoviesFragment : Fragment(), RvClickListener<MovieUi> {
         viewModel.error.onEach {
             makeToast(it, requireContext())
         }
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             viewModel.storageMovies
                 .onEach {
                     if (it.isNotEmpty()) {

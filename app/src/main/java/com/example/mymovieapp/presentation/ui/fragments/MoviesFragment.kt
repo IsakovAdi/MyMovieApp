@@ -22,6 +22,7 @@ import com.example.mymovieapp.presentation.ui.viewModels.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MoviesFragment : Fragment(), RvClickListener<MovieUi> {
@@ -94,14 +95,14 @@ class MoviesFragment : Fragment(), RvClickListener<MovieUi> {
             makeToast(it, requireContext())
         }
 
-        lifecycleScope.launchWhenResumed {
+        lifecycleScope.launch {
             viewModel.movies.collectLatest {
                 moviesAdapter.moviesList = it.movies
                 binding.pageConstraint.visibility = View.VISIBLE
             }
         }
 
-        lifecycleScope.launchWhenResumed {
+        lifecycleScope.launch {
             viewModel.movieResponseState.collectLatest { state ->
                 binding.apply {
                     prevPageText.text = state.previousPage.toString()

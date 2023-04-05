@@ -20,6 +20,7 @@ import com.example.mymovieapp.presentation.models.movie.MoviesResponseUi
 import com.example.mymovieapp.presentation.models.person.PersonDetailsUi
 import com.example.mymovieapp.presentation.models.video.VideoUi
 import com.example.mymovieapp.presentation.models.video.VideosResponseUi
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -64,6 +65,7 @@ class MovieDetailsViewModel constructor(
         }
         .map(mapPersons::map)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val similarMoviesFlow = movieIdFlow.flatMapLatest {
         movieRepository.getSimilarMovies(it)
     }.map(mapMovieResponse::map)

@@ -22,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchMoviesFragment
@@ -79,7 +80,7 @@ class SearchMoviesFragment
             makeToast(it, requireContext())
         }
 
-        lifecycleScope.launchWhenResumed {
+        lifecycleScope.launch {
             viewModel.movies.collectLatest {
                 moviesAdapter.moviesList = it.movies
             }
